@@ -1,5 +1,7 @@
 from flask import Blueprint, jsonify
 from services.calc_service import divide
+from services.user_service import register_user
+
 main = Blueprint('main', __name__)
 
 @main.route('/')
@@ -29,7 +31,7 @@ def calc():
     return jsonify({"result": x + y})
 
 @main.route('/divide')
-def divide():
+def divide_route():
     from flask import request
 
     x = request.args.get("x")
@@ -38,7 +40,6 @@ def divide():
     results, status = divide(x, y)
     return jsonify(results), status
 
-from services.user_service import register_user
 
 @main.route('/register', methods=['POST'])
 def register():
