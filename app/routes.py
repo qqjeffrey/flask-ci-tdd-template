@@ -47,3 +47,12 @@ def register():
     data = request.get_json()
     result, status = register_user(data)
     return jsonify(result), status
+
+@main.route('/login', methods=['POST'])
+def login():
+    from flask import request
+    from services.user_service import login_user
+
+    data = request.get_json()
+    result, status = login_user(data)
+    return jsonify(result), status

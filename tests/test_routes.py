@@ -68,3 +68,26 @@ def test_register_short_password(client):
     })
     assert response.status_code == 400
     assert response.json == {"error": "Password too short (min 8)"}
+
+def test_login_success(client):
+    response = client.post('/login', json={
+        "email": "test@example.com",
+        "password": "12345678"
+    })
+    assert response.status_code == 200
+    assert response.json == {"message": "Login successful"}
+
+def test_login_wrong_password(client):
+    response = client.post('/login', json={
+        "email": "test@example.com",
+        "password": "wrongpass"
+    })
+    assert response.status_code == 401
+    assert response.json == {"error": "Invalid credentials"}
+
+def test_login_missing_fields(client):
+    response = client.post('/login', json={
+        "email": ""
+    })
+    assert response.status_code == 400
+    assert response.json == {"error": "Missing email or password"}    
