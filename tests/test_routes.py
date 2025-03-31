@@ -106,3 +106,20 @@ def test_login_success_with_hashed_password(client):
 
     assert response.status_code == 200
     assert response.json == {"message": "Login successful"}
+
+"""註冊時把使用者存到「SQLite 資料庫」"""
+def test_register_and_login_with_db(client): 
+    # 註冊
+    response = client.post('/register', json={
+        "email": "dbuser@example.com",
+        "password": "supersecure"
+    })
+    assert response.status_code == 200
+
+    # 登入
+    response = client.post('/login', json={
+        "email": "dbuser@example.com",
+        "password": "supersecure"
+    })
+    assert response.status_code == 200
+    assert response.json == {"message": "Login successful"}
