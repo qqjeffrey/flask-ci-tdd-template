@@ -91,3 +91,18 @@ def test_login_missing_fields(client):
     })
     assert response.status_code == 400
     assert response.json == {"error": "Missing email or password"}    
+
+
+def test_login_success_with_hashed_password(client):
+    client.post('/register', json={
+        "email": "secure@example.com",
+        "password": "strongpass123"
+    })
+
+    response = client.post('/login', json={
+        "email": "secure@example.com",
+        "password": "strongpass123"
+    })
+
+    assert response.status_code == 200
+    assert response.json == {"message": "Login successful"}
